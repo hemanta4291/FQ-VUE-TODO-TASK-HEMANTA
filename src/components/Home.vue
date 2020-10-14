@@ -1,23 +1,23 @@
 <template>
   <v-container>
    <v-row>
-    <v-col cols="8">
+    <v-col>
       <v-text-field
       label="Main input"
       :rules="rules"
       v-model="todoText"
       hide-details="auto"
-      @keydown="submit"
+      @keydown.enter="submit"
     ></v-text-field>
     </v-col>
    </v-row>
     <v-row>
-      <v-col cols="8">
+      <v-col>
 
         <v-simple-table>
           <tbody>
             <tr
-              v-for="(item, index) in desserts"
+              v-for="(item, index) in data"
               :key="index"
             >
               <td>{{ item.name }}</td>
@@ -48,39 +48,31 @@ import { store } from '../store'
   export default {
     name: 'HelloWorld',
 
-    data: () => ({
-      todoText: '',
+    data(){
+      return {
+        todoText: '',
       rules: [
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
       ],
-      desserts: [
-          {
-            name: 'Frozen Yogurt',
-          },
-          {
-            name: 'Ice cream sandwich',
-          },
-          {
-            name: 'Eclair'
-          }
-        ],
       
-    }),
+      }
+    },
+    computed:{
+      data(){
+        return store.data
+      }
+    },
     methods:{
-      
-
-      submit(e){
-        if(e.keyCode === 13){
-          this.desserts.push({
+      submit(){
+          store.data.push({
             name:this.todoText
           })
           this.todoText = ''
           console.log(this.todoText)
-        }
-      },
+        },
       deleteItem(index){
-        this.desserts.splice(index,1)
+        this.data.splice(index,1)
       },
       ViewItem(item){
         this.$router.push({ name: 'Details' })

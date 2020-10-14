@@ -7,7 +7,6 @@
         <v-btn
               class="ma-2"
               color="primary"
-              @click="back"
               to="/"
                 >
                   back
@@ -21,10 +20,6 @@
 import { store } from '../store'
   export default {
     name: 'Details',
-
-    data: () => ({
-      
-    }),
     computed:{
       text(){
         return store.details
