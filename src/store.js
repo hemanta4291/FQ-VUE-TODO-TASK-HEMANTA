@@ -6,12 +6,15 @@ export const store = Vue.observable({
     data: [
         {
           name: 'Frozen Yogurt',
+          done:false
         },
         {
           name: 'Ice cream sandwich',
+          done:false
         },
         {
-          name: 'Eclair'
+          name: 'Eclair',
+          done:false
         }
       ],
 });

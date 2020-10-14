@@ -2,8 +2,11 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        {{text}}
-
+      <v-card
+          class="pa-5 card"
+          
+        >
+         <p>{{text}}</p>
         <v-btn
               class="ma-2"
               color="primary"
@@ -11,6 +14,12 @@
                 >
                   back
                 </v-btn>
+
+                
+        </v-card>
+
+       
+       
        </v-col>
     </v-row>
   </v-container>
@@ -27,3 +36,13 @@ import { store } from '../store'
     },
   }
 </script>
+
+<style>
+
+.card {
+    display: flex !important; 
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+</style>
