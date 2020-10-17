@@ -54,7 +54,7 @@
              <v-btn
              class="ma-2"
               color="error"
-              @click.stop="deleteItem(props.item.index,$event)"
+              @click.stop="deleteItem(props.item.index)"
             >
               Delete
             </v-btn>
@@ -146,13 +146,15 @@ import { store } from '../store'
       }
     },
     methods:{
+      //create todo
       submit(){
-          store.data.push({
+          if(this.todoText.length>0){
+            store.data.push({
             name:this.todoText,
             done:false
           })
           this.todoText = ''
-         console.log(this.data)
+          }
         },
         // edit
         edit(item,index){
@@ -168,11 +170,11 @@ import { store } from '../store'
           this.dialog = false
          
         },
-        deleteItem(index,event){
+        //delete todo
+        deleteItem(index){
           store.data.splice(index,1)
-          event.preventDefault();
-          console.log(event.preventDefault())
         },
+        //view todo
         ViewItem(item){
           this.$router.push({ name: 'Details' })
           store.details = item
