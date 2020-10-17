@@ -1,58 +1,70 @@
 <template>
   <v-container>
    <v-row>
-    <v-col>
+    <v-col class="col-md-9 offset-md-6 mx-auto d-flex">
       <v-text-field
-      label="Main input"
-      :rules="rules"
-      v-model="todoText"
-      hide-details="auto"
-      @keydown.enter="submit"
-    ></v-text-field>
+        label="Main input"
+        :rules="rules"
+        v-model="todoText"
+        hide-details="auto"
+        @keydown.enter="submit"
+      > </v-text-field>
+      <v-btn
+        class="ma-2"
+        color="primary"
+        @click="submit"
+          >
+            Create
+      </v-btn>
     </v-col>
    </v-row>
     <v-row>
-      <v-col>
+      <v-col class="col-md-9 offset-md-6 mx-auto">
 
-        <v-data-table :headers="headers" :items="itemsWithIndex" :items-per-page="5">
+        <v-data-table 
+        :headers="headers" 
+        :items="itemsWithIndex" 
+        :items-per-page="5"
+        class="elevation-1"
+        
+        >
 
-            <template v-slot:item="row">
+            <template v-slot:item="props">
             
               <tr class="table-custom">
                <td class="flex">
-               <v-checkbox
-                  v-model="row.item.done"
-                  hide-details
-                  class="shrink mr-2 mt-0"
-                ></v-checkbox>
-               <p :class="{ done : row.item.done}">{{ row.item.name }}</p>
+                {{props.item.index+1}}
+               
+                <p class="name">{{ props.item.name }}</p>
               </td>
               <td><v-btn
               class="ma-2"
               color="secondary"
-              @click="edit(row.item.name,row.item.index)"
+              @click="edit(props.item.name,props.item.index)"
                 >
                   Edit
                 </v-btn>
                 <v-btn
               class="ma-2"
               color="primary"
-              @click="ViewItem(row.item.name)"
+              @click="ViewItem(props.item.name)"
                 >
                   View
                 </v-btn>
              <v-btn
              class="ma-2"
               color="error"
-              @click="deleteItem(row.item.index)"
+              @click.stop="deleteItem(props.item.index,$event)"
             >
               Delete
-            </v-btn></td>
+            </v-btn>
+            </td>
               
               </tr>
           </template>
          
         </v-data-table>
+        
       </v-col>
 
 
@@ -75,9 +87,16 @@
           @keydown.enter="update"
         ></v-text-field>
           </v-card-text>
-          <v-card-actions>
-            <v-btn
+          <v-card-actions class="d-flex justify-space-between">
+          <v-btn
               color="primary"
+              text
+              @click="update"
+            >
+              Update
+            </v-btn>
+            <v-btn
+              color="error"
               text
               @click="dialog = false"
             >
@@ -97,6 +116,7 @@ import { store } from '../store'
 
     data(){
       return {
+        checkValue:null,
         todoIndex: null,
         todoeditText:'',
         dialog:false,
@@ -148,8 +168,10 @@ import { store } from '../store'
           this.dialog = false
          
         },
-        deleteItem(index){
+        deleteItem(index,event){
           store.data.splice(index,1)
+          event.preventDefault();
+          console.log(event.preventDefault())
         },
         ViewItem(item){
           this.$router.push({ name: 'Details' })
@@ -161,13 +183,12 @@ import { store } from '../store'
 </script>
 
 <style>
-.done{
-  text-decoration: line-through;
-}
 .table-custom td{
    width: 50%
 }
-
+.table-custom .name{
+  padding-left: 15px;
+}
 .table-custom .flex {
     display: flex;
     align-items: center;
